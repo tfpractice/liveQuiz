@@ -4,5 +4,19 @@ import './index.css';
 import App from './components';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+console.log(
+  'window.apiResponse',
+  window.apiResponse.items.map(e => e.occurrences)
+);
+
+console.log(
+  ' mapped items',
+  window.apiResponse.items.map(e => e.occurrences.map(o => new Date(o.start)))
+
+  // .map(d => new Date(d))
+);
+ReactDOM.render(
+  <App events={window.apiResponse.items} />,
+  document.getElementById('root')
+);
 registerServiceWorker();

@@ -17,7 +17,30 @@ export const weeks = [
   March.slice(20, 27),
   March.slice(27),
 ];
+const init = { start: Date.now(), finish: Date.now(), };
 
-// weeks.map(w=>w.reduce((acc, next)=>
-// acc.set
-// ))
+export const getEventOuccurences = ({ occurrences = [], }) => occurrences;
+export const getStart = ({ start, } = init) => new Date(start);
+export const getFinish = ({ finish, } = init) => new Date(finish);
+export const sameMonth = d0 => d1 => d0.getMonth() === d1.getMonth();
+
+export const sameDay = d0 => d1 => d0.getDate() === d1.getDate();
+export const eqDate = d0 => d1 =>
+  [ sameDay(d0), sameMonth(d0), ].every(f => f(new Date(d1)));
+
+export const startsOn = d => evt =>
+  evt.occurrences.map(getStart).some(eqDate(d));
+
+export const endsOn = d => evt =>
+  evt.occurrences.map(getFinish).some(eqDate(d));
+
+export const findStart = d => evt =>
+  evt.occurrences.map(getStart).find(eqDate(d));
+export const findFinish = d => evt =>
+  evt.occurrences.map(getFinish).find(eqDate(d));
+
+export const occursOn = d => evt =>
+  !d ? [] : [ startsOn(d), endsOn(d), ].some(f => f(evt));
+
+export const sortOccurences = d => (a, b) =>
+  findStart(d)(a).getHours() - findStart(d)(b).getHours();
